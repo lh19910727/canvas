@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id="canvas" width="500px" height="500px"></canvas>
+		<script type="text/javascript">
+			//2d绘图环境
+			var c = document.getElementById("canvas").getContext("2d");
+			//设置填充颜色
+			c.fillStyle = 'red';
+			var arr1 = [];
+			var arr2=[];
+				//生成小方点点
+			function creatDiv() {
+				for(var i = 0.5; i < c.canvas.height; i = i + 7) {
+					for(var j = 0; j < c.canvas.width; j = j + 7) {
+						c.fillRect(j + 0.5, i + 0.5, 1, 1);
+						arr1.push({
+							x: j + 0.5,
+							y: i + 0.5
+						})
+						arr2.push({
+							x: j + 0.5,
+							y: i + 0.5
+						})
+
+					}
+				}
+			}
+			creatDiv();
+			//鼠标点的位置
+			var x;
+			var y;
+			document.onmousemove=function(e){
+				x=e.clientX;
+				y=e.clientY;
+			}
+			//勾股定理
+			function disFn(x, y) {
+				var dis = Math.sqrt(x * x + y * y);
+				return dis;
+			}
+			setInterval(function() {
+				for(i = 0; i < arr1.length; i++) {
+					var dis = disFn(x - arr1[i].x, y - arr1[i].y);
+					if(dis <= 100) {
+						arr1[i].x +=  (arr1[i].x-x) / 30;
+						arr1[i].y +=  (arr1[i].y-y)/ 30;
+					}else{
+						var disx=(arr2[i].x-arr1[i].x);
+						var disy=(arr2[i].y-arr1[i].y);
+						arr1[i].x+=disx/10;
+						arr1[i].y+=disy/10;
+					}
+					
+				}
+				c.clearRect(0,0,c.canvas.width,c.canvas.height);
+					for(var j=0;j<arr1.length;j++){
+						c.fillRect(arr1[j].x+0.5,arr1[j].y+0.5,1,1)
+					}
+				
+			}, 50)
+			
+		</script>
+	</body>
+
+</html>
